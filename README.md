@@ -1,33 +1,75 @@
-Twitter Auto Poster (Playwright + GitHub Actions)
+# twitter2
 
-الوصف
-برنامج يقوم بنشر تغريداتك بشكل دوري على تويتر باستخدام Playwright و GitHub Actions مجانًا، حتى لو كان جهازك مغلق.
+واجهة محلية لإدارة ونشر تغريدات باستخدام Playwright.
 
-المميزات
-- مجاني بالكامل
-- يعمل 24/7 عبر GitHub Actions
-- إعادة ترتيب فقرات التغريدات والهاشتاقات عشوائيًا لتقليل النمطية
-- إضافة تغريدات جديدة بسهولة عبر تعديل ملف tweets.json
+المحتويات
+- `manage_tweets.py` - CLI لإدارة `tweets.json` (عرض، إضافة، تعديل، حذف).
+- `manage_tweets_gui.py` - واجهة رسومية (Tkinter) لإدارة التغريدات محلياً.
+- `post_tweets.py` - سكربت نشر التغريدات تلقائياً باستخدام Playwright.
+- `login_helper.py` - أداة لحفظ حالة الجلسة (سجل الدخول يدوياً ثم حفظ `storage_state.json`).
+- `tweets.json` - قائمة التغريدات.
+- `storage_state.json` - حالة الجلسة (كوكيز) لتمكين Playwright من الوصول للحساب.
 
-الإعداد
-1. ثبّت Python وPlaywright على جهازك:
-   pip install -r requirements.txt
-   playwright install
+السلوك العام
+- لا ينشر البرنامج تلقائياً عند التثبيت. عليك تسجيل الجلسة ثم اختبار النشر يدوياً أولاً.
 
-2. شغل login_helper.py وسجل الدخول لحسابك في تويتر، ثم اضغط Enter لحفظ الجلسة.
+الشروع السريع (موصى به)
+1. تثبيت الحزم المطلوبة:
 
-3. حول ملف storage_state.json إلى base64:
-   base64 storage_state.json > storage_state.b64
+```powershell
+pip install -r requirements.txt
+```
 
-4. أنشئ مستودع جديد في GitHub، أضف الملفات إليه.
+2. تثبيت متصفحات Playwright (مرة واحدة):
 
-5. في إعدادات المستودع، أضف Secret جديد باسم:
-   - Key: PLAYWRIGHT_STORAGE_BASE64
-   - Value: محتوى ملف storage_state.b64
+```powershell
+python -m playwright install
+```
 
-6. شغل الـ workflow يدويًا من صفحة Actions لاختبار النشر.
+3. تسجيل الجلسة وتخزينها:
 
-ملاحظات
-- يفضل تجربة الحساب على حساب تجريبي أولًا
-- تابع الـ Logs في GitHub Actions لمعرفة أي مشاكل
-- في حال تغيّر واجهة تويتر أو تم تسجيل الخروج، أعد خطوة login_helper.py
+```powershell
+python login_helper.py
+# ستفتح نافذة متصفح؛ سجّل الدخول يدوياً ثم اضغط Enter في الطرفية لحفظ storage_state.json
+```
+
+4. اختبار القراءة من `tweets.json` (سريع، لا نشر):
+
+```powershell
+python manage_tweets.py --list
+```
+
+5. اختبار نشر مرئي (مبسط، لا يعمل headless):
+- لتحقّق أولي، افتح `post_tweets.py` وعدّل:
+   - `browser = await p.chromium.launch(headless=True)` -> `headless=False`
+   - قلّل التغريدات: `tweets = load_tweets()[:1]` لنشر تغريدة واحدة للاختبار.
+
+ثم شغّل:
+
+```powershell
+python post_tweets.py
+```
+
+راقب نافذة المتصفح وتأكد أن النص يوضع ويضغط زر النشر. إذا نجح، أعد `headless=True` للتشغيل الخلفي.
+
+فحص التركيب السريع (آمن)
+لتأكد من عدم وجود أخطاء بايثون تركيبية في سكربت النشر:
+
+```powershell
+python -m py_compile post_tweets.py
+```
+
+تحسينات موصى بها
+- أضيف خيار `--dry-run` لطباعة النصوص دون النشر.
+- سجِّل إلى ملف log مع طوابع زمنية لكل محاولة نشر.
+- أضف خيار `--count N` للاختبار السريع على N تغريدات.
+- شغّل الاختبارات على حساب تجريبي لتقليل المخاطر.
+
+ملاحظات الأمان
+- لا تنشر `storage_state.json` علناً — يحتوي على بيانات الجلسة.
+- اتبع شروط استخدام Twitter/X بشأن النشر الآلي.
+
+هل تريد الآن أن أطبق أيًا من التحسينات التالية تلقائياً؟
+- إضافة `--dry-run` و`--count` إلى `post_tweets.py` مع اختبارات سريعة.
+- إضافة سجل (log) لإجراءات النشر.
+- تشغيل تجربة نشر مرئي واحد الآن (أقوم بتعديل مؤقت ثم أعيده).
