@@ -1,9 +1,17 @@
-# Sensitive session state (never commit)
-storage_state.json
+# Env
+.env
+.venv
+venv/
 
-# Debug artifacts
+# State and History
+storage_state.b64
+storage_state.json
+runner_state.json
+post_history.json
+
+# Logs and Debugging
+*.log
 debug_outputs/
-runner.log
 
 # Python cache
 __pycache__/
