@@ -47,7 +47,7 @@ jobs:
 
       - name: Install Playwright browsers
         run: |
-          python -m playwright install --with-deps chromium
+          python -m playwright install chromium
 
       - name: Run poster (single post per run)
         env:
@@ -67,3 +67,4 @@ jobs:
             git push
           else
             echo "No state changes to commit."
+          fi
