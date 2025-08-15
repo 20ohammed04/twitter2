@@ -1,0 +1,10 @@
+2025-08-15 14:08:32,234 - INFO - بدء المعالجة - ملف الإدخال: h.txt - مجلد الإخراج: C:\Users\20oha\OneDrive\Desktop\auto.3\twitter2
+2025-08-15 14:08:32,252 - INFO - تم إنشاء: C:\Users\20oha\OneDrive\Desktop\auto.3\twitter2\tweets.json
+2025-08-15 14:08:32,252 - INFO - تم إنشاء: C:\Users\20oha\OneDrive\Desktop\auto.3\twitter2\requirements.txt
+2025-08-15 14:08:32,258 - INFO - تم إنشاء: C:\Users\20oha\OneDrive\Desktop\auto.3\twitter2\post_tweets.py
+2025-08-15 14:08:32,258 - INFO - تم إنشاء: C:\Users\20oha\OneDrive\Desktop\auto.3\twitter2\login_helper.py
+2025-08-15 14:08:32,258 - INFO - تم إنشاء: C:\Users\20oha\OneDrive\Desktop\auto.3\twitter2\publish.yml
+2025-08-15 14:08:32,263 - INFO - تم إنشاء: C:\Users\20oha\OneDrive\Desktop\auto.3\twitter2\README.md
+2025-08-15 14:08:32,263 - INFO - ----- ملخص العملية -----
+2025-08-15 14:08:32,265 - INFO - تم إنشاء: 6 ملف(ـات).
+2025-08-15 14:08:32,265 - INFO - انتهى.

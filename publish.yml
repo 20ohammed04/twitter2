@@ -1,0 +1,32 @@
+name: Post Tweets
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
+
+jobs:
+  post-tweets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps
+
+      - name: Decode storage_state.json
+        run: |
+          echo "$PLAYWRIGHT_STORAGE_BASE64" | base64 --decode > storage_state.json
+
+      - name: Run tweet script
+        run: python post_tweets.py
+        env:
+          PLAYWRIGHT_STORAGE_BASE64: ${{ secrets.PLAYWRIGHT_STORAGE_BASE64 }}
+
