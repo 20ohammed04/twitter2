@@ -1,0 +1,10 @@
+# Sensitive session state (never commit)
+storage_state.json
+
+# Debug artifacts
+debug_outputs/
+runner.log
+
+# Python cache
+__pycache__/
+*.pyc
