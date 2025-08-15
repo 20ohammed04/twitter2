@@ -46,7 +46,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Install Playwright browsers
-        run: python -m playwright install chromium
+        run: python -m playwright install --with-deps chromium
 
       - name: Run poster (single post per run)
         env:
