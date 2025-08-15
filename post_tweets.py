@@ -409,6 +409,30 @@ def generate_intervals_for_posts(n_posts: int, total_seconds: int, min_interval:
     return intervals
 
 
+async def post_with_retries(page, content, retries=3, delay=10):
+    """محاولة نشر التغريدة مع إعادة المحاولة عند الفشل."""
+    for i in range(retries):
+        try:
+            await post_tweet(page, content)
+            logging.info("Tweet successfully posted.")
+            return True
+        except Exception as e:
+            logging.error(f"Attempt {i + 1}/{retries} to post failed: {e}")
+            if i < retries - 1:
+                logging.info(f"Retrying in {delay} seconds...")
+                await asyncio.sleep(delay)
+                # قد تحتاج الصفحة لتحديث أو إعادة توجيه قبل المحاولة التالية
+                try:
+                    await page.reload(wait_until="domcontentloaded")
+                    logging.info("Page reloaded before next attempt.")
+                except Exception as reload_e:
+                    logging.warning(f"Failed to reload page: {reload_e}")
+            else:
+                logging.error("All posting retries failed.")
+                await save_debug(page, "post_failed_after_retries")
+    return False
+
+
 # ---------------- Main flow ----------------
 async def main():
     if not Path(TWEETS_FILE).exists():
