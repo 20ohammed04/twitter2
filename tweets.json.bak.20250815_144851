@@ -31,22 +31,6 @@
     "hashtags": [
       "#دراسة"
     ],
-    "enabled": false
-  },
-  {
-    "id": "t6",
-    "text": "",
-    "hashtags": [
-      "#هلا"
-    ],
-    "enabled": true
-  },
-  {
-    "id": "t7",
-    "text": "اللا",
-    "hashtags": [
-      "#هال"
-    ],
     "enabled": true
   }
 ]
