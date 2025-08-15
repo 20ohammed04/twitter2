@@ -2,7 +2,7 @@ name: Scheduled Twitter Poster
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # every 10 minutes
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -46,15 +46,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Install Playwright browsers
-        run: |
-          python -m playwright install --with-deps chromium
+        run: python -m playwright install chromium
 
       - name: Run poster (single post per run)
         env:
           STORAGE_STATE_B64: ${{ secrets.STORAGE_STATE_B64 }}
           CI: true
-        run: |
-          python post_tweets.py
+        run: python post_tweets.py
 
       - name: Commit state changes (if any)
         run: |
