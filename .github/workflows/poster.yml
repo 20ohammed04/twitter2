@@ -46,6 +46,8 @@ jobs:
 
       - name: Run poster (dry-run by default)
         shell: pwsh
+        env:
+          PYTHONIOENCODING: utf-8
         run: |
           if (Test-Path post_tweets.py) {
             Write-Host "Running post_tweets.py in dry-run mode..."
